@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Suite]">
+  <test thread-count="5" name="Google Search Test(failed)">
+    <parameter name="searchQuery" value="Prabhas birthday date"/>
+    <classes>
+      <class name="javaAppiumAutomation.AppiumAutomationProject.FormPageTest2Website">
+        <methods>
+          <include name="RunBeforeTest"/>
+          <include name="stopServer"/>
+          <include name="startServer"/>
+          <include name="setUp"/>
+          <include name="googleSearch" invocation-numbers="0"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- javaAppiumAutomation.AppiumAutomationProject.FormPageTest2Website -->
+    </classes>
+  </test> <!-- Google Search Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

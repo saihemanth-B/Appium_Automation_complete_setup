@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite">
+
+  <!-- Test case 1: API DEMO APPLICATION -->
+  <test thread-count="5" name="Test case 1 API DEMO APPLICATION">
+    <classes>
+      <class name="APiDemosApplicationTest.ApidemosPageTest"/>
+      	<methods> 
+      	<!-- 2 test cases removed -->
+      		<exclude name="demospageTest"/>
+      		<exclude name="verifyMenuOptions2"/> 
+      	</methods>
+      <!-- You can uncomment other classes if needed -->
+      <!-- <class name="javaAppiumAutomation.AppiumAutomationProject.ProductCatalogTest"/> -->
+      <!-- <class name="Basics.Login"/> -->
+      <!-- <class name="BasePackage.BaseClass"/> -->
+      <!-- <class name="javaAppiumAutomation.AppiumAutomationProject.APIDemoAppTest2_Activity"/> -->
+      <!-- <class name="javaAppiumAutomation.AppiumAutomationProject.FormPageTest"/> -->
+    </classes>
+  </test>
+
+  <!-- Test case 2: GENERAL STORE APPLICATION -->
+  
+  <!-- conditional test cases to run in A GROUP  -->
+  <test thread-count="5" name="Test case 2 GENERAL STORE APPLICATION">
+  <groups>
+  	<run>
+  		<include name="hemanth"/>
+  	
+  	</run>
+  
+  </groups>
+    <classes>
+      <class name="javaAppiumAutomation.AppiumAutomationProject.FormPageTest"/>
+    </classes>
+  </test>
+  
+  
+ <!-- test case 3 --> 
+  <test name="Google Search Test">
+    <parameter name="searchQuery" value="Prabhas birthday date"/>
+    <classes>
+        <class name="javaAppiumAutomation.AppiumAutomationProject.FormPageTest"/>
+    </classes>
+</test>
+  
+
+</suite>

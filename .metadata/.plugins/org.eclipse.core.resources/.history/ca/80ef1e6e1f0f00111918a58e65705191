@@ -1,0 +1,111 @@
+package javaAppiumAutomation.AppiumAutomationProject;
+
+import java.time.Duration;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import BasePackage.BaseClass;
+import io.appium.java_client.android.AndroidDriver;
+
+
+public class FormPageTest extends BaseClass{
+	
+	public static AndroidDriver driver;
+	public FormPage fp;
+	
+	
+	  // 2. PUT IT HERE: This runs after the server/app starts, but before the test runs
+    @BeforeMethod
+    public void prepareTest() {
+        // This 'driver' comes from the parent BfnAfclassnBfnAfmethods
+        fp = new FormPage (driver); 
+        System.out.println("Page Object 'fp' initialized with the active driver.");
+    }
+
+		
+	
+	@Test
+	public void login() throws InterruptedException
+	{
+		
+		
+		
+
+		String title = fp.appname.getText();
+		
+		System.out.println("the app name is : "+title);
+		
+		//log.info("getting title of the application");
+		
+		//timer wait
+		// Replace Thread.sleep with this in your Base Class or Test
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.visibilityOf(fp.appname));
+
+		
+		//comparing the title
+		Assert.assertEquals(title,"General Store","element not matched");
+		//log.info("content matched , verified here");
+		
+		//lg.getyourname().sendKeys("krishna kumar");
+		fp.getcountryname().click();
+		
+		Thread.sleep(3000);
+		
+	    // 2. Scroll until "India" is visible
+	    scrollToText("India");
+	    Thread.sleep(10000);
+	    
+	    
+	    
+	    //scrollToElementJS(selectcountry);
+	    
+	    // 3. Click the element found by scrolling
+	    fp.selectcountryname().click();
+	    
+	    
+	    String country = fp.verifycountryname().getText();
+		//comparing the title
+		Assert.assertEquals(country,"India","element not matched");
+		//log.info("element matched  , verified here");
+		
+		fp.getname().sendKeys("kumar");
+		
+		Thread.sleep(5000);
+		
+		fp.getgender().click();
+		Thread.sleep(3000);
+		
+		String gender =fp.getgender().getText();
+		System.out.println("the app name is : "+gender);
+		
+		fp.getshopbtn().click();
+		
+		Thread.sleep(5000);
+		
+	
+		
+		
+		
+		
+
+		fp.getname().sendKeys("Hemanth kumar");
+		
+		Thread.sleep(3000);
+		
+		fp.getgender().click();
+		
+		
+		fp.letsshopbtn.click();
+		Thread.sleep(3000);
+		
+		
+		
+	}
+		
+
+}

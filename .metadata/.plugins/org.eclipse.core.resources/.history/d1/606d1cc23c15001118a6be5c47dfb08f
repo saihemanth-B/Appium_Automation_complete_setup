@@ -1,0 +1,318 @@
+package APiDemosApplicationTest;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.google.common.collect.ImmutableMap;
+
+import ApiDemosApplication.ApidemosPage;
+import BasePackage.BaseClass;
+
+public class ApidemosPageTest extends BaseClass {
+    private ApidemosPage dm;
+
+    @BeforeMethod
+    public void prepareTest() throws InterruptedException {
+    	
+    	//it is closing that app
+    	
+    	((JavascriptExecutor) driver).executeScript(
+    		    "mobile: terminateApp",
+    		    ImmutableMap.of("appId", "com.androidsample.generalstore")
+    		);
+
+
+    	Thread.sleep(4000);
+        // ✅ Launch ApiDemos main activity
+        ((JavascriptExecutor) driver).executeScript(
+            "mobile: startActivity",
+            ImmutableMap.of("intent", "io.appium.android.apis/io.appium.android.apis.ApiDemos")
+        );
+
+        // ✅ Initialize Page Object
+        dm = new ApidemosPage(driver);
+
+        System.out.println("ApidemosPage initialized with active driver.");
+    }
+    
+    
+    /*
+     * Execution Flow
+TestNG sees the @DataProvider named "demoData".
+
+It takes the first row {"API Demos"} and calls your test method with expectedTitle = "API Demos".
+
+Then it takes the second row {"Another Demo Title"} and calls your test method again with expectedTitle = "Another Demo Title".
+
+Each run is independent, so you get multiple executions of the same test with different input values.
+     * 
+     * 
+     * 
+     */
+    
+  //it is similar to parameterization  -- data driven method
+    
+    
+    //2d array -- we can run as many of test cases 
+    //passing app name like 2 test cases 
+    //merthod 1 , direct data giving here
+    
+    /*
+    @DataProvider(name = "demoData")
+    public Object[][] demoData() {
+        return new Object[][] {
+            {"API Demos"},          // test 1 - row 1 → expectedTitle = "API Demos"
+            {"Another Demo Title"}  // test 2 -row 2 → expectedTitle = "Another Demo Title"
+        };
+    }
+    
+    */
+    
+    
+    //method 2 calling json file 
+    
+    @DataProvider(name = "demoData")
+    public Object[][] demoData() throws IOException {
+        String filePath = System.getProperty("user.dir")
+            + "\\src\\test\\java\\APIdemosTestdata\\apidemos.json";
+
+        //method calling here
+        List<HashMap<String, String>> data = getJsonData(filePath);
+
+        Object[][] result = new Object[data.size()][1];
+        for (int i = 0; i < data.size(); i++) {
+            result[i][0] = data.get(i);   // each row = one HashMap
+        }
+        return result;
+    }
+
+    //calling with method name
+    @Test(priority=1,dataProvider = "demoData")
+    public void demospageTest(HashMap<String, String> input) throws InterruptedException {
+        String appTitle = dm.getappname().getText();
+        Assert.assertEquals(appTitle, input.get("expectedTitle"), "element not matched");
+
+        String menuOption = input.get("menuOption");
+        if (menuOption.equals("Animation")) {
+            dm.getAnimation().click();
+        } else if (menuOption.equals("Content")) {
+            dm.getContent().click();
+        }
+    }
+
+    
+    
+
+
+    
+    //here we give that data provider  data through arguments
+    
+    @Test(priority=2,enabled=false,dataProvider = "demoData")
+    public void demospageTest(String expectedTitle) throws InterruptedException {
+    	
+    	String appTitle = dm.getappname().getText(); 
+    	
+    	// Compare with parameterized expected title
+    	Assert.assertEquals(appTitle, expectedTitle, "element not matched");
+    	
+    	
+    
+    	System.out.println("App name is "+appTitle);
+    	System.out.println("app title comparsion is done"+expectedTitle);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Wait for Accessibility option and click
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        
+       // System.out.println("printing option name "+dm.getAccb().getText());
+       // dm.getAccb().click();
+        
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+     // Backward navigation example
+       // driver.navigate().back();   // simulates pressing the Android back button
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        
+        Assert.assertTrue(dm.getAnimation().isDisplayed(), "Animation option not visible");
+        System.out.println("ANIMATION option is displayed ");
+        
+
+        
+        dm.getAnimation().click();
+        
+        Thread.sleep(5000);
+        driver.navigate().back(); 
+        Thread.sleep(5000);
+        Assert.assertTrue(dm.getContent().isDisplayed(), "Content option not visible");
+        System.out.println("CONTENT option is displayed ");
+        
+        dm.getAppOpt().click();
+        
+        Thread.sleep(5000);
+        
+        driver.navigate().back();
+
+
+        // Wait for Media option and click
+        wait.until(ExpectedConditions.visibilityOf(dm.getMedia()));
+        dm.getMedia().click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.navigate().back();
+        
+        Assert.assertTrue(dm.getViews().isEnabled(), "Views option is not enabled");
+        System.out.println("Views option is enabled and clickable");
+        Thread.sleep(5000);
+
+
+
+        System.out.println("Accessibility and Media options clicked successfully.");
+    }
+    
+    
+    
+    @Test(priority=2,enabled=false)
+    public void demospageTest2() throws InterruptedException {
+    	
+    	String appTitle=dm.getappname().getText();
+    	System.out.println("App name is "+appTitle);
+    	
+    	Assert.assertEquals(appTitle,"API Demos","element not matched");
+    	System.out.println("app title comparsion is true ");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Wait for Accessibility option and click
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        
+       // System.out.println("printing option name "+dm.getAccb().getText());
+       // dm.getAccb().click();
+        
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+     // Backward navigation example
+       // driver.navigate().back();   // simulates pressing the Android back button
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        
+        Assert.assertTrue(dm.getAnimation().isDisplayed(), "Animation option not visible");
+        System.out.println("ANIMATION option is displayed ");
+        
+
+        
+        dm.getAnimation().click();
+        
+        Thread.sleep(5000);
+        driver.navigate().back(); 
+        Thread.sleep(5000);
+        Assert.assertTrue(dm.getContent().isDisplayed(), "Content option not visible");
+        System.out.println("CONTENT option is displayed ");
+        
+        dm.getAppOpt().click();
+        
+        Thread.sleep(5000);
+        
+        driver.navigate().back();
+
+
+        // Wait for Media option and click
+        wait.until(ExpectedConditions.visibilityOf(dm.getMedia()));
+        dm.getMedia().click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.navigate().back();
+        
+        Assert.assertTrue(dm.getViews().isEnabled(), "Views option is not enabled");
+        System.out.println("Views option is enabled and clickable");
+        Thread.sleep(5000);
+
+
+
+        System.out.println("Accessibility and Media options clicked successfully.");
+    }
+    
+    
+    @Test(priority = 3,enabled=false)
+    public void verifyAllMenuOptions() {
+        String appTitle = dm.getappname().getText();
+        Assert.assertEquals(appTitle, "API Demos", "App title mismatch");
+        System.out.println("Verified App Title: " + appTitle);
+
+       /* String accessibility = dm.getAccessibility().getText();
+        Assert.assertEquals(accessibility, "Accessibility", "Accessibility mismatch");
+        System.out.println("Verified Accessibility: " + accessibility);*/
+
+        String animation = dm.getAnimation().getText();
+        Assert.assertEquals(animation, "Animation", "Animation mismatch");
+        System.out.println("Verified Animation: " + animation);
+
+        String appOpt = dm.getAppOpt().getText();
+        Assert.assertEquals(appOpt, "App", "App option mismatch");
+        System.out.println("Verified App Option: " + appOpt);
+
+        String content = dm.getContent().getText();
+        Assert.assertEquals(content, "Content", "Content mismatch");
+        System.out.println("Verified Content: " + content);
+
+        String graphics = dm.getGraphis().getText();
+        Assert.assertEquals(graphics, "Graphics", "Graphics mismatch");
+        System.out.println("Verified Graphics: " + graphics);
+
+        String media = dm.getMedia().getText();
+        Assert.assertEquals(media, "Media", "Media mismatch");
+        System.out.println("Verified Media: " + media);
+
+        String nfc = dm.getNFC().getText();
+        Assert.assertEquals(nfc, "NFC", "NFC mismatch");
+        System.out.println("Verified NFC: " + nfc);
+
+        String os = dm.getOS().getText();
+        Assert.assertEquals(os, "OS", "OS mismatch");
+        System.out.println("Verified OS: " + os);
+
+        String preference = dm.getPreference().getText();
+        Assert.assertEquals(preference, "Preference", "Preference mismatch");
+        System.out.println("Verified Preference: " + preference);
+
+        String text = dm.getText().getText();
+        Assert.assertEquals(text, "Text", "Text mismatch");
+        System.out.println("Verified Text: " + text);
+
+        String views = dm.getViews().getText();
+        Assert.assertEquals(views, "Views", "Views mismatch");
+        System.out.println("Verified Views: " + views);
+    }
+    
+    //enable = false means this test case skips run execution
+    
+    @Test(priority = 3,enabled=false)
+    public void verifyMenuOptions() {
+        Assert.assertEquals(dm.getAnimation().getText(), "Animation", "Animation mismatch");
+        System.out.println("Verified Animation");
+
+        Assert.assertEquals(dm.getGraphis().getText(), "Graphics", "Graphics mismatch");
+        System.out.println("Verified Graphics");
+
+        Assert.assertEquals(dm.getPreference().getText(), "Preference", "Preference mismatch");
+        System.out.println("Verified Preference");
+    }
+
+    
+    
+    @Test(priority = 5,enabled=false)
+    public void verifyMenuOptions2() {
+        Assert.assertEquals(dm.getAnimation().getText(), "Animation", "Animation mismatch");
+        System.out.println("Verified Animation from test 4");
+
+    
+    }
+
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Web Automation Suite">
+
+  <test name="Google Search Test">
+    <parameter name="searchQuery" value="Prabhas birthday date"/>
+    <classes>
+      <class name="javaAppiumAutomation.AppiumAutomationProject.FormPageTest2Website"/>
+    </classes>
+  </test>
+
+</suite>

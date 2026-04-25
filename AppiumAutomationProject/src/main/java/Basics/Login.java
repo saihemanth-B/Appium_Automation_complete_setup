@@ -1,0 +1,95 @@
+package Basics;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.testng.annotations.Test;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+
+public class Login {
+	
+	
+	
+
+    public static AndroidDriver driver;
+    
+    
+@Test
+ public void setUp() throws MalformedURLException, InterruptedException {
+	
+        UiAutomator2Options options = new UiAutomator2Options();
+        
+        
+        options.setDeviceName("Pixel 5");
+        options.setUdid("0A261FDD400449");
+        options.setPlatformVersion("13");
+        options.setPlatformName("Android");
+        
+        
+         // Path to your APK file (update with actual path on your PC)
+        
+        //options.setApp("C:\\Users\\user\\Downloads\\ApiDemos-debug.apk"); 
+        
+        //options.setApp("C:\\Users\\user\\Desktop\\practice_apps\\MopriaPrintService-2.16.5-beta2-amazonAppAlpha-universal.apk");
+        options.setApp("C:\\Users\\user\\Desktop\\practice_apps\\General-Store (1).apk");
+        
+        System.out.println("trying to install an app");
+        
+        //options.setApp("C:\\Users\\user\\Downloads\\ContactManager-selendroid.apk");
+
+        System.out.println("App went to this path ");
+        Thread.sleep(5000);
+        System.out.println("App  opened");  
+        Thread.sleep(2000);
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/"), options); 
+        
+        System.out.println("App installed and launched successfully!");
+        
+        
+        Thread.sleep(2000);
+        //driver.findElement(By.xpath("//android.widget.TextView[@content-desc=\"Graphics\"]")).click();
+        Thread.sleep(4000);
+        
+        
+        
+        /*
+         * 
+         // directly openining already installed app by package and activity name 
+        
+ 		options.setApp("C:\\path\\to\\ApiDemos-debug.apk");
+// OR
+		options.setAppPackage("io.appium.android.apis");
+		options.setAppActivity("io.appium.android.apis.ApiDemos");
+
+        options.setAppPackage("org.mopria.printplugin");
+        options.setAppActivity("org.mopria.printplugin.SplashScreenActivity");
+        //options.setAutomationName("UiAutomator2");
+
+
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/"), options);
+
+        //driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
+        System.out.println("Application started check");
+        
+        */
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+
+    public static void main(String[] args) throws Exception {
+    	Login obj = new Login();
+        obj.setUp();
+    }
+}
+
+

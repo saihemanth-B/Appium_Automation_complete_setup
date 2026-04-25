@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [FormPageSuite]">
+  <test thread-count="5" name="FormPageTests(failed)">
+    <classes>
+      <class name="javaAppiumAutomation.AppiumAutomationProject.FormPageTest">
+        <methods>
+          <include name="testCaseOne"/>
+          <include name="stopServer"/>
+          <include name="RunBeforeTest"/>
+          <include name="startServer"/>
+          <include name="testCaseFour"/>
+          <include name="setUp"/>
+          <include name="testCaseThree"/>
+          <include name="testCaseFive"/>
+          <include name="tearDown"/>
+          <include name="testCaseTwo"/>
+        </methods>
+      </class> <!-- javaAppiumAutomation.AppiumAutomationProject.FormPageTest -->
+    </classes>
+  </test> <!-- FormPageTests(failed) -->
+</suite> <!-- Failed suite [FormPageSuite] -->
